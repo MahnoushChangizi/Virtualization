@@ -3,13 +3,13 @@ NUM_TARGET = 2
 
 # VMWare: see NAT network
 # VirtualBox: see VirtualBox Host-Only Ethernet Adapter (remember to disable Windows Firewall)
-MYNET = "192.168.88"
+MYNET = "192.168.70"
 
 CPUS = 2
-RAM = 4096
+RAM = 3092
 
 LOCAL_BOX = false
-DEFAULT_PROVIDER = 'libvirt'
+DEFAULT_PROVIDER = 'vmware'
 
 KEY_FILE_PATH = nil
 
@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
     management_ip = "#{MYNET}.#{i+9}"
     management_mac = "00:0c:29:8b:0a:7#{i}"
 
-    storage_ip = "192.168.169.#{i+9}"
+    storage_ip = "10.255.255.#{i+9}"
     storage_mac = "00:0c:29:8b:0b:7#{i}"
 
     if i == 1 then
