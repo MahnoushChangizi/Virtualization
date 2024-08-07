@@ -1,52 +1,47 @@
 ---
 # tasks file for roles/docker
-# Add Docker apt repository key
-- name: add Docker apt repository key.
-  - name: Add Docker apt repository key.
+
+# Add Docker APT repository key
+- name: Add Docker APT repository key
   ansible.builtin.get_url:
     url: https://download.docker.com/linux/ubuntu/gpg
-    # specifies the destination path on the managed host where the downloaded file should be saved
     dest: /etc/apt/trusted.gpg.d/docker.asc
     mode: '0644'
     force: true
   become: true
 
-  # Get DEB architecture
+# Get DEB architecture
 - name: Get DEB architecture
   ansible.builtin.command: dpkg --print-architecture
   register: our_architecture
-  # Ensures this task doesn't report a change when it actually doesn't make any changes
   changed_when: false
 
 # Add Docker source
-- name: add Docker source
+- name: Add Docker source
   ansible.builtin.apt_repository:
-    repo: "deb [arch={{ our_architecture.stdout }}, signed-by=/etc/apt/trusted.gpg.d/docker.asc] \
-    https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
-    # is default. We can decide to omit it but it's good practice to keep it
+    repo: "deb [arch={{ our_architecture.stdout }},signed-by=/etc/apt/trusted.gpg.d/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
     state: present
   become: true
 
-#Install Docker and docker compose plugin
-- name: Install Docker and docker compose plugin
+# Install Docker and Docker Compose plugin
+- name: Install Docker and Docker Compose plugin
   ansible.builtin.apt:
     pkg:
-      - docker-ce # docker community edition
-      - docker-ce-cli # docker command line interface
-      - containerd.io # containerd daemon for docker
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
       - docker-compose-plugin
-    update_cache: true # ensure apt-get update is run
+    update_cache: true
   become: true
 
-# Add vagrant user to group docker
-- name: add vagrant user to group docker
+# Add vagrant user to docker group
+- name: Add vagrant user to docker group
   ansible.builtin.user:
     name: vagrant
     groups: docker
     append: yes
   become: true
 
-
-# TASK 6: Reset ssh connection
-- name: Reset ssh connection
+# Reset SSH connection
+- name: Reset SSH connection
   ansible.builtin.meta: reset_connection
