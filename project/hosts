@@ -2,7 +2,7 @@
 controlnode.vcc.local ansible_connection=local
 
 [targets]
-target[1:2].vcc.local
+target[1:2].vcc.local 
 
 [swarm_manager]
 target1.vcc.local

@@ -3,10 +3,10 @@
   hosts: targets
   roles:
     - docker
-    - swarm
-    - nfs
-    - registry
-- name: Docker Swarm services
-  hosts: targets[0]
-  roles:
-    - swarm-services
+   # - swarm
+    #- nfs
+    #- registry
+#- name: Docker Swarm services
+  #hosts: targets[0]
+ # roles:
+   # - swarm-services
